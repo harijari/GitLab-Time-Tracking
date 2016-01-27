@@ -61,6 +61,7 @@ class XLSXExporter
 
 			{ "$unwind" => "$comments"},
 			{"$project" => {_id: 0,
+                                                        download_id: "$admin_info.download_id",
 							milestone_title: { "$ifNull" => [ "$milestone.title", "n/a" ] },
 							issue_title: "$title",
                                                         date: "$comments.time_tracking_data.work_date",
