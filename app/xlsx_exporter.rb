@@ -27,34 +27,61 @@ class XLSXExporter
 
 	# end
 
-	def generateXLSX(issuesData, milestoneData)
+	def generateXLSX(issuesData, milestoneData, storyPointsData)
 
 		Axlsx::Package.new do |p|
 		  p.workbook.add_worksheet(:name => "Issues") do |sheet|
 			sheet.add_row issuesData.first.keys
-		    
-		    issuesData.each do |hash|
-                        hash.values[2] = (hash.values[2].to_i / 3600)
-			sheet.add_row hash.values
+			
+			issuesData.each do |hash|
+				sheet.add_row hash.values
 		  	end
 
 		  end
 		  p.workbook.add_worksheet(:name => "Milestones") do |sheet|
 			if milestoneData.empty? == false
 				sheet.add_row milestoneData.first.keys
-			    
-			    milestoneData.each do |hash|
+				
+				milestoneData.each do |hash|
 					sheet.add_row hash.values
 			  	end
 
-			  elsif milestoneData.empty? == true
-			  	sheet.add_row ["No Milestone Data"]
-			  end
+			elsif milestoneData.empty? == true
+				sheet.add_row ["No Milestone Data"]
+			end
 		  end
+
+				  p.workbook.add_worksheet(:name => "Story points") do |sheet|
+					  if storyPointsData.empty? == false
+						  sheet.add_row storyPointsData.first.keys
+
+						  storyPointsData.each do |hash|
+							  sheet.add_row hash.values
+						  end
+					  else
+						  sheet.add_row ["No story points data"]
+					  end
+				  end
 
 		  return p.to_stream
 		end
 	end
+
+		def get_all_story_points(downloadID)
+				return @mongoConnection.aggregate([
+						{ "$match" => { points: { "$ne" => nil} }},
+						{"$project" => {_id: 0, 
+														download_id: "$admin_info.download_id",
+														project: "$project_info.path_with_namespace",
+														issue_number: "$iid",
+														issue_title: "$title",
+														issue_state: "$state",
+														issue_points: "$points",
+														duration: "$comments.time_tracking_data.duration",
+														}},
+						{ "$match" => {download_id: downloadID}}
+														])
+		end
 
 	def get_all_issues_time(downloadID)
 		# TODO add filtering and extra security around query
@@ -66,10 +93,10 @@ class XLSXExporter
                                                         person: "$comments.time_tracking_data.work_logged_by",
 							time: "$comments.time_tracking_data.duration",
 							comment: "$comments.time_tracking_data.time_comment",
-                                                        issue_title: "$title",
+							issue_title: "$title",
                                                         this_is_free_time: "$comments.time_tracking_data.non_billable",
                                                         version: { "$ifNull" => [ "$milestone.title", "n/a" ] },
-
+			
                                                         download_id: "$admin_info.download_id"
                                                         }},
 			{ "$match" => {download_id: downloadID}},
