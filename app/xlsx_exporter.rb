@@ -34,8 +34,8 @@ class XLSXExporter
 			sheet.add_row issuesData.first.keys
 		    
 		    issuesData.each do |hash|
-                                hash.values['time'] = hash.values['time'] / 3600;
-				sheet.add_row hash.values
+                        hash.values['time'] = (hash.values['time'].to_i / 3600);
+			sheet.add_row hash.values
 		  	end
 
 		  end
