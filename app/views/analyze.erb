@@ -14,13 +14,13 @@
 		<p><strong> Milestone Number: <%= m["milestone_number"] %></strong></p>
 		<p> State: <%= m["milestone_state"] %></p>
 		<p> Title: <%= m["milestone_title"] %></p>
-		<p> Budget: <%= budget = m["milestone_budget_duration"].to_i / 3600 %></p>
+		<p> Budget: <%= budget = m["milestone_budget_duration"].to_i / 3600.0 %></p>
 		<p> Due Date: <%= m["milestone_due_date"] %></p>
-		<p> Sum of Time Logs assoicated with Milestone(Spent Time): <%= timeSum = get_milestone_sums(m["download_id"], m["milestone_number"])["time_duration_sum"] / 3600 %> (<%= (timeSum / budget.to_f * 100).round(2) %> % spent)</p>
+		<p> Sum of Time Logs assoicated with Milestone(Spent Time): <%= timeSum = get_milestone_sums(m["download_id"], m["milestone_number"])["time_duration_sum"] / 3600.0 %> (<%= (timeSum / budget.to_f * 100).round(2) %> % spent)</p>
 
                 <p> Sum of story points: <%= get_milestone_points(m["download_id"], m["milestone_number"])["points_total"] %></p>
 		<p> Count of Time Logs assoicated with Milestone: <%= timeCount = get_milestone_sums(m["download_id"], m["milestone_number"])["time_comment_count"] %></p>
-		<p>Budget Left: <%= (budget - timeSum)/3600 %> (<%= ((budget - timeSum) / budget.to_f * 100).round(2) %>% left) </p>
+		<p>Budget Left: <%= (budget - timeSum)/3600.0 %> (<%= ((budget - timeSum) / budget.to_f * 100).round(2) %>% left) </p>
 
 	<p><strong>Issue breakdown:</strong></p>
 			<table style="width:100%">
@@ -37,7 +37,7 @@
 						<td class="text-center"><%= i["issue_number"] %></td>
 						<td class="text-center"><%= i["issue_title"] %></td>
 						<td class="text-center"><%= i["issue_state"] %></td>
-						<td class="text-center"><%= i["time_duration_sum"] / 3600 %> (<%= (i["time_duration_sum"] / budget.to_f * 100).round(2)%>% of Budget)</td>
+						<td class="text-center"><%= i["time_duration_sum"] / 3600.0 %> (<%= (i["time_duration_sum"] / budget.to_f * 100).round(2)%>% of Budget)</td>
                                                 <td class="text-center"><%= i["issue_points"] %></td>
 						<td class="text-center"><%= i["time_comment_count"] %></td>
 					</tr>					

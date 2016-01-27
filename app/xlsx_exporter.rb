@@ -100,6 +100,7 @@ class XLSXExporter
                                                         download_id: "$admin_info.download_id"
                                                         }},
 			{ "$match" => {download_id: downloadID}},
+                        { "$sort" => { date: 1 }},
 
 			# { "$unwind" => "$comments.time_tracking_data" },
 
