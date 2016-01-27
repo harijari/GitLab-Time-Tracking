@@ -65,8 +65,8 @@ class XLSXExporter
 							issue_title: "$title",
                                                         date: "$comments.time_tracking_data.work_date",
                                                         person: "$comments.time_tracking_data.work_logged_by",
-							paid_time: { "$divide" => ["$comments.time_tracking_data.duration", 3600] },
-							free_time: { "$divide" => ["$comments.time_tracking_data.non_billable", 3600] },
+							paid_time: "$comments.time_tracking_data.duration",
+							free_time: "$comments.time_tracking_data.non_billable",
 							comment: "$comments.time_tracking_data.time_comment"}},
 			{ "$match" => {download_id: downloadID}},
 
