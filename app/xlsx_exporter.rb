@@ -65,11 +65,12 @@ class XLSXExporter
                                                         date: "$comments.time_tracking_data.work_date",
                                                         person: "$comments.time_tracking_data.work_logged_by",
 							time: "$comments.time_tracking_data.duration",
-							comment: "$comments.time_tracking_data.time_comment"}},
+							comment: "$comments.time_tracking_data.time_comment",
                                                         issue_title: "$title",
                                                         this_is_free_time: "$comments.time_tracking_data.non_billable",
                                                         version: { "$ifNull" => [ "$milestone.title", "n/a" ] },
-                                                        download_id: "$admin_info.download_id",
+                                                        download_id: "$admin_info.download_id"
+                                                        }},
 			{ "$match" => {download_id: downloadID}},
 
 			# { "$unwind" => "$comments.time_tracking_data" },
