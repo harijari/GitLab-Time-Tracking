@@ -34,6 +34,7 @@ class XLSXExporter
 			sheet.add_row issuesData.first.keys
 		    
 		    issuesData.each do |hash|
+                                hash.values['time'] = hash.values['time'] / 3600;
 				sheet.add_row hash.values
 		  	end
 
@@ -61,14 +62,14 @@ class XLSXExporter
 
 			{ "$unwind" => "$comments"},
 			{"$project" => {_id: 0,
-                                                        download_id: "$admin_info.download_id",
-							milestone_title: { "$ifNull" => [ "$milestone.title", "n/a" ] },
-							issue_title: "$title",
                                                         date: "$comments.time_tracking_data.work_date",
                                                         person: "$comments.time_tracking_data.work_logged_by",
-							paid_time: "$comments.time_tracking_data.duration",
-							free_time: "$comments.time_tracking_data.non_billable",
+							time: "$comments.time_tracking_data.duration",
 							comment: "$comments.time_tracking_data.time_comment"}},
+                                                        issue_title: "$title",
+                                                        this_is_free_time: "$comments.time_tracking_data.non_billable",
+                                                        version: { "$ifNull" => [ "$milestone.title", "n/a" ] },
+                                                        download_id: "$admin_info.download_id",
 			{ "$match" => {download_id: downloadID}},
 
 			# { "$unwind" => "$comments.time_tracking_data" },
