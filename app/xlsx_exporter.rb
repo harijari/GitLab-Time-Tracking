@@ -35,7 +35,7 @@ class XLSXExporter
 			
 			issuesData.each do |hash|
                                 row = hash.values
-                                row[3] = row[3].to_i / 3600
+                                row[3] = row[3].to_i / 3600.0
 				sheet.add_row row
 		  	end
 
