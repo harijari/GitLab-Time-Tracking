@@ -36,7 +36,7 @@ class XLSXExporter
 			issuesData.each do |hash|
                                 row = hash.values
                                 row[3] = row[3].to_i / 3600
-				sheet.add_row hash.values
+				sheet.add_row row
 		  	end
 
 		  end
@@ -91,6 +91,7 @@ class XLSXExporter
 
 			{ "$unwind" => "$comments"},
 			{"$project" => {_id: 0,
+                                                        project: "$project_info.path_with_namespace",
                                                         date: "$comments.time_tracking_data.work_date",
                                                         person: "$comments.time_tracking_data.work_logged_by",
 							time: "$comments.time_tracking_data.duration",
