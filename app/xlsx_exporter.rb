@@ -127,11 +127,11 @@ class XLSXExporter
 
 			# 				}}
 							])
-		output = []
-		totalIssueSpentHoursBreakdown.each do |x|
-			output << x["_id"]
-		end
-		return output
+		#output = []
+		#totalIssueSpentHoursBreakdown.each do |x|
+		#	output << x["_id"]
+		#end
+		#return output
 	end
 
 	def get_all_milestone_budgets(downloadID)
