@@ -129,7 +129,6 @@ class XLSXExporter
 							])
 		output = []
 		totalIssueSpentHoursBreakdown.each do |x|
-                        x["_id"]["download_id"] = nil;
 			output << x["_id"]
 		end
 		return output
