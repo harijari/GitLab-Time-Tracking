@@ -93,7 +93,9 @@ get '/' do
 	if current_user == nil
 		flash[:warning] = ["You must <a href='/login'>Login </a> to your GitLab Instance to continue"]
 	else
-		@projectList = gitlab_instance.user_projects
+            @projectList = gitlab_instance.user_projects.sort {
+                |x, y|  x["path_with_namespace"] <= y["path_with_namespace"] 
+            }
 		@adminQueries = admin_queries.get_downloads
 	end
 	
