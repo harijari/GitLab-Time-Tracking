@@ -35,7 +35,7 @@ class XLSXExporter
 			
 			issuesData.each do |hash|
                                 row = hash.values
-                                row[3] = row[3].to_i / 3600.0
+                                row[4] = row[4].to_i / 3600.0
 				sheet.add_row row
 		  	end
 
@@ -91,7 +91,9 @@ class XLSXExporter
 
 			{ "$unwind" => "$comments"},
 			{"$project" => {_id: 0,
+
                                                         project: "$project_info.path_with_namespace",
+                                                        issue_id: "$iid",
                                                         date: "$comments.time_tracking_data.work_date",
                                                         person: "$comments.time_tracking_data.work_logged_by",
 							time: "$comments.time_tracking_data.duration",
@@ -99,7 +101,6 @@ class XLSXExporter
 							issue_title: "$title",
                                                         this_is_free_time: "$comments.time_tracking_data.non_billable",
                                                         version: { "$ifNull" => [ "$milestone.title", "n/a" ] },
-			
                                                         download_id: "$admin_info.download_id"
                                                         }},
 			{ "$match" => {download_id: downloadID}},
@@ -126,13 +127,13 @@ class XLSXExporter
 
 			# 				}}
 							])
-		# output = []
-		# totalIssueSpentHoursBreakdown.each do |x|
-		# 	x["_id"]["time_duration_sum"] = x["time_duration_sum"]
-		# 	x["_id"]["time_comment_count"] = x["time_comment_count"]
-		# 	output << x["_id"]
-		# end
-		# return output
+		output = []
+		totalIssueSpentHoursBreakdown.each do |x|
+                        x["_id"].delete('download_id');
+                        "test".!
+			output << x["_id"]
+		end
+		return output
 	end
 
 	def get_all_milestone_budgets(downloadID)
