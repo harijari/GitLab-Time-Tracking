@@ -35,7 +35,7 @@ class XLSXExporter
 			
 			issuesData.each do |hash|
                                 row = hash.values
-                                row[4] = row[4].to_i / 3600.0
+                                row[5] = row[5].to_i / 3600.0
 				sheet.add_row row
 		  	end
 
@@ -94,11 +94,11 @@ class XLSXExporter
 
                                                         project: "$project_info.path_with_namespace",
                                                         issue_id: "$iid",
+                                                        issue_title: "$title",
                                                         date: "$comments.time_tracking_data.work_date",
                                                         person: "$comments.time_tracking_data.work_logged_by",
 							time: "$comments.time_tracking_data.duration",
 							comment: "$comments.time_tracking_data.time_comment",
-							issue_title: "$title",
                                                         this_is_free_time: "$comments.time_tracking_data.non_billable",
                                                         version: { "$ifNull" => [ "$milestone.title", "n/a" ] },
                                                         download_id: "$admin_info.download_id"
