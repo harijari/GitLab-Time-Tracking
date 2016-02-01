@@ -30,7 +30,7 @@ module Helpers
 
 	def self.get_time_work_date(parsedTimeComment)
 		begin
-			return Time.parse(parsedTimeComment).utc
+			return Time.stptime(parsedTimeComment, "%Y-%m-%d").utc
 		rescue
 			return nil
 		end
